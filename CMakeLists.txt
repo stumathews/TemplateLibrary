@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.0)
-project(test VERSION 1.0)
+project(testlib VERSION 1.0)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 
@@ -21,9 +21,9 @@ set(sourceAndHeaderFiles
  list (APPEND sourceAndHeaderFiles 
   ${sourceFiles})
 
-add_library(test STATIC)
+add_library(testlib STATIC)
 
-target_sources(test
+target_sources(testlib
  PRIVATE 
   ${sourceFiles}
  PUBLIC
@@ -32,11 +32,11 @@ target_sources(test
   FILES ${headerFiles}
 )
 
-add_library(test::test ALIAS test)
+add_library(testlib::testlib ALIAS testlib)
 
-generate_export_header(test)
+generate_export_header(testlib)
 
-set_target_properties(test 
+set_target_properties(testlib 
  PROPERTIES 
  LINKER_LANGUAGE CXX 
 )
@@ -44,8 +44,8 @@ set_target_properties(test
 include(GNUInstallDirs)
 
 install(
-    TARGETS test 
-        EXPORT test # produce target exports for this target
+    TARGETS testlib 
+        EXPORT testlib # produce target exports for this target
     RUNTIME 
         DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY 
@@ -60,24 +60,24 @@ install(
 
 # Create/write the targets exports to the specified file name in the lib directory (as this is where downstream packages look for it via find_package())
 
-install(EXPORT test
- DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/test
- NAMESPACE test::
+install(EXPORT testlib
+ DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/testlib
+ NAMESPACE testlib::
 )
 
 # Write a basic package config version file for us please
 write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/test/testConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/testlib/testlibConfigVersion.cmake"
   VERSION ${PROJECT_VERSION}
   COMPATIBILITY AnyNewerVersion
 )
 
-set(ConfigPackageLocation lib/cmake/test)
+set(ConfigPackageLocation lib/cmake/testlib)
 
 install(
   FILES
-    cmake/testConfig.cmake # This file must be created by us
-    "${CMAKE_CURRENT_BINARY_DIR}/test/testConfigVersion.cmake"
+    cmake/testlibConfig.cmake # This file must be created by us
+    "${CMAKE_CURRENT_BINARY_DIR}/testlib/testlibConfigVersion.cmake"
   DESTINATION
     ${ConfigPackageLocation}
   COMPONENT
