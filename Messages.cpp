@@ -2,6 +2,10 @@
 
 namespace test
 {
+    Messages::Messages()
+    {
+        std::cout << "ConstructedMessages\n";
+    }
     void Messages::SaySomething1()
     {
         std::cout << "SaySomething1\n"; 
